@@ -1,4 +1,4 @@
-export default function Home() {
+export default function LocaleHome() {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mt-8 mb-8 text-2xl font-medium">About Readonly Page</div>
