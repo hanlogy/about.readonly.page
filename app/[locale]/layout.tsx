@@ -3,6 +3,7 @@ import { Roboto, Roboto_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { LazyLink } from '@/components/LazyLink';
 import { MainContainer } from '@/components/MainContainer';
+import { Navbar } from '@/components/Navbar';
 import { SafeArea } from '@/components/SafeArea';
 
 const robotoSans = Roboto({
@@ -44,17 +45,7 @@ export default async function LocaleLayout({
               <LazyLink href={`/${locale}`} className="text-2xl font-medium">
                 Readonly<span className="text-sm font-normal">.page</span>
               </LazyLink>
-              <ul className="ml-12 hidden space-x-8 text-sm text-gray-600 sm:flex">
-                <li>
-                  <LazyLink href={`/${locale}/examples`}>Examples</LazyLink>
-                </li>
-                <li>
-                  <LazyLink href={`/${locale}/docs`}>Docs</LazyLink>
-                </li>
-                <li>
-                  <LazyLink href="/blog">Blog</LazyLink>
-                </li>
-              </ul>
+              <Navbar locale={locale} />
             </MainContainer>
           </SafeArea>
         </div>
