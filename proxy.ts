@@ -1,28 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const corsOptions = {
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-};
-
 export function proxy(request: NextRequest) {
-  const origin = request.headers.get('origin') ?? '';
-  const isPreflight = request.method === 'OPTIONS';
+  const { pathname } = request.nextUrl;
 
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    ...corsOptions,
-  };
+  let targetUrlString: string;
+  const shouldRewrite = pathname.startsWith('/blog');
 
-  if (isPreflight) {
-    return NextResponse.json({}, { headers });
+  const matchedBlog = pathname.match(
+    /^\/[a-zA-Z]{2}-[a-zA-Z]{2}\/blog(\/.*)?$/
+  );
+  if (matchedBlog) {
+    targetUrlString = `/blog${matchedBlog[1] ?? ''}`;
+  } else {
+    targetUrlString = `/en-US${pathname}`;
   }
 
-  const response = NextResponse.next();
-  response.headers.set('Access-Control-Allow-Origin', origin);
-
-  Object.entries(corsOptions).forEach(([key, value]) => {
-    response.headers.set(key, value);
-  });
-
-  return response;
+  const targetUrl = new URL(targetUrlString, request.nextUrl);
+  return shouldRewrite
+    ? NextResponse.rewrite(targetUrl)
+    : NextResponse.redirect(targetUrl, 301);
 }
+
+export const config = {
+  matcher: [
+    '/',
+    '/(docs|examples|blog)/:path*',
+    '/([a-zA-Z]{2}-[a-zA-Z]{2})/blog/:path*',
+  ],
+};
