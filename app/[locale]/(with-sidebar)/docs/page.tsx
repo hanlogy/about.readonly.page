@@ -1,3 +1,3 @@
 export default async function DocsHome({}: PageProps<'/[locale]/docs'>) {
-  return <div>Docs Page</div>;
+  return <div className="py-20">Under construction...</div>;
 }

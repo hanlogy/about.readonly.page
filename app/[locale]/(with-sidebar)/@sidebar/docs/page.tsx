@@ -1,3 +1,3 @@
 export default function DocsSidebar() {
-  return <div>Docs Sidebar</div>;
+  return <div></div>;
 }

@@ -1,3 +1,3 @@
 export default function BlogPage() {
-  return <div>Blog Page</div>;
+  return <div className="py-20">Under construction...</div>;
 }
